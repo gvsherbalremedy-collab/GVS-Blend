@@ -1,0 +1,19 @@
+client_id = "779ed5442f0b1a0515097729ef0bf64c"
+name = "GVS-Blend-3"
+handle = "gvs-blend-3"
+application_url = "https://gvs-blend-3.onrender.com"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "in3hiv-rk.myshopify.com"
+
+[access_scopes]
+scopes = "read_products, write_products"
+
+[auth]
+redirect_urls = [
+  "https://gvs-blend-3.onrender.com/auth/callback",
+  "https://gvs-blend-3.onrender.com/auth/shopify/callback",
+  "https://gvs-blend-3.onrender.com/api/auth/callback"
+]
