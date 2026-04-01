@@ -32,4 +32,4 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// ... keep your Session model below exactly as it was
+// ... keep your Session model below exactly as it was 
