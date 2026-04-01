@@ -23,3 +23,13 @@ model Session {
   locale        String?
   collaborator  Boolean?  @default(false)
 }
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ... keep your Session model below exactly as it was
