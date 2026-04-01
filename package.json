@@ -13,6 +13,7 @@
   "type": "commonjs",
   "dependencies": {
     "@prisma/client": "^7.6.0",
+    "@prisma/config": "^7.6.0",
     "axios": "^1.14.0",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
