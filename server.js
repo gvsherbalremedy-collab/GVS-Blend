@@ -16,15 +16,15 @@ app.post('/create-draft-order', async (req, res) => {
     const payload = {
       draft_order: {
         line_items: [{
-          title: blendName,
-          original_custom_description: `Type: ${selectionType} | Size: ${bottleSize}`,
-          price: price.toString(),
+          title: blendName || "Custom Herbal Blend",
+          price: price ? price.toString() : "0.00",
           quantity: 1,
-          properties: herbs.map(h => ({
+          properties: Array.isArray(herbs) ? herbs.map(h => ({
             name: h.name,
             value: `${h.percentage}%`
-          }))
-        }]
+          })) : []
+        }],
+        note: `Selection Type: ${selectionType || 'Not Specified'} | Size: ${bottleSize || 'N/A'}`
       }
     };
 
