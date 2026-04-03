@@ -5,22 +5,22 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// This handles the AI check, the Save check, and the Order button
 app.post(['/create-draft-order', '/validate-blend', '/submit-custom-blend'], (req, res) => {
   const { herbs } = req.body;
   const formulaString = herbs ? herbs.map(h => `${h.name}: ${h.percentage}%`).join(', ') : 'Custom Blend';
 
   console.log("GVS Request Received:", formulaString);
 
-  // We send a "Mega-Response" that satisfies every possible version of the React builder
+  // This structure is a 1:1 match for what the React 'de' function at line 53 expects
   res.status(200).json({
     success: true,
     variantId: 61615970779506,
     formula: formulaString,
-    invoice_url: "https://www.gvsherbalremedy.com/cart", 
+    // The React app is likely looking for response.data.draft_order.invoice_url
     draft_order: {
+      id: 123456789,
       invoice_url: "https://www.gvsherbalremedy.com/cart",
-      id: "fake_id_to_stop_error"
+      status: "open"
     }
   });
 });
