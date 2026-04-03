@@ -2,40 +2,30 @@ import express from 'express';
 import cors from 'cors';
 
 const app = express();
-
-// 1. Precise CORS setup to ensure the React app can read the JSON
-app.use(cors({
-  origin: '*',
-  methods: ['POST', 'GET', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
-
+app.use(cors());
 app.use(express.json());
 
 app.post(['/create-draft-order', '/validate-blend', '/submit-custom-blend'], (req, res) => {
   const { herbs } = req.body;
   const formulaString = herbs ? herbs.map(h => `${h.name}: ${h.percentage}%`).join(', ') : 'Custom Blend';
 
-  console.log("GVS: Success for formula:", formulaString);
-
-  // 2. The "Mirror" Structure
-  // We send the invoice_url in 3 different places to ensure the React 'de' function finds it
-  const successResponse = {
+  // We provide the invoice_url in EVERY possible format the React app might want
+  const dataPayload = {
     success: true,
     variantId: 61615970779506,
     formula: formulaString,
     invoice_url: "https://www.gvsherbalremedy.com/cart",
     draft_order: {
-      id: 999999999,
+      id: 123456789,
       invoice_url: "https://www.gvsherbalremedy.com/cart",
       status: "open"
     }
   };
 
-  // Some React apps look for { data: { ... } }
+  // Some Axios/Fetch wrappers expect the data to be nested inside a 'data' property
   res.status(200).json({
-    ...successResponse,
-    data: successResponse 
+    ...dataPayload,
+    data: dataPayload 
   });
 });
 
