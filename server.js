@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 
@@ -9,8 +10,8 @@ app.post(['/create-draft-order', '/validate-blend', '/submit-custom-blend'], (re
   const { herbs } = req.body;
   const formulaString = herbs ? herbs.map(h => `${h.name}: ${h.percentage}%`).join(', ') : 'Custom Blend';
 
-  // We provide the invoice_url in EVERY possible format the React app might want
-  const dataPayload = {
+  // This object contains everything the builder needs
+  const result = {
     success: true,
     variantId: 61615970779506,
     formula: formulaString,
@@ -22,10 +23,10 @@ app.post(['/create-draft-order', '/validate-blend', '/submit-custom-blend'], (re
     }
   };
 
-  // Some Axios/Fetch wrappers expect the data to be nested inside a 'data' property
+  // We send it normally AND wrapped in a 'data' key to stop the Error at line 53
   res.status(200).json({
-    ...dataPayload,
-    data: dataPayload 
+    ...result,
+    data: result 
   });
 });
 
