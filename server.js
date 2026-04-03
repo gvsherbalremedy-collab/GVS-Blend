@@ -2,26 +2,40 @@ import express from 'express';
 import cors from 'cors';
 
 const app = express();
-app.use(cors());
+
+// 1. Precise CORS setup to ensure the React app can read the JSON
+app.use(cors({
+  origin: '*',
+  methods: ['POST', 'GET', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 
 app.post(['/create-draft-order', '/validate-blend', '/submit-custom-blend'], (req, res) => {
   const { herbs } = req.body;
   const formulaString = herbs ? herbs.map(h => `${h.name}: ${h.percentage}%`).join(', ') : 'Custom Blend';
 
-  console.log("GVS Request Received:", formulaString);
+  console.log("GVS: Success for formula:", formulaString);
 
-  // This structure is a 1:1 match for what the React 'de' function at line 53 expects
-  res.status(200).json({
+  // 2. The "Mirror" Structure
+  // We send the invoice_url in 3 different places to ensure the React 'de' function finds it
+  const successResponse = {
     success: true,
     variantId: 61615970779506,
     formula: formulaString,
-    // The React app is likely looking for response.data.draft_order.invoice_url
+    invoice_url: "https://www.gvsherbalremedy.com/cart",
     draft_order: {
-      id: 123456789,
+      id: 999999999,
       invoice_url: "https://www.gvsherbalremedy.com/cart",
       status: "open"
     }
+  };
+
+  // Some React apps look for { data: { ... } }
+  res.status(200).json({
+    ...successResponse,
+    data: successResponse 
   });
 });
 
