@@ -5,12 +5,20 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Simplified endpoint for the AJAX flow
+// --- EMERGENCY REDIRECT START ---
+// This catches the old 404 requests from the React builder and fixes them
+app.post('/create-draft-order', (req, res) => {
+    console.log("GVS: Redirecting old request to /validate-blend");
+    res.redirect(307, '/validate-blend');
+});
+// --- EMERGENCY REDIRECT END ---
+
+// Working endpoint for the AJAX flow
 app.post('/validate-blend', (req, res) => {
   const { herbs, bottleSize } = req.body;
 
   // Ensure herbs exist and total 100%
-  const total = herbs.reduce((sum, h) => sum + h.percentage, 0);
+  const total = herbs ? herbs.reduce((sum, h) => sum + h.percentage, 0) : 0;
   
   if (total !== 100) {
     return res.status(400).json({ error: 'Formula must total 100%' });
