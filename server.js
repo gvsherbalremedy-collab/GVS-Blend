@@ -14,10 +14,10 @@ app.post(['/create-draft-order', '/validate-blend', '/submit-custom-blend'], (re
     // CRITICAL: Changed from string 'gid://...' to the pure numeric ID
     variantId: 61615970779506, 
     formula: formulaString,
-    invoice_url: "/cart",
+    invoice_url: "https://www.gvsherbalremedy.com/cart",
     draft_order: {
       id: 123456789,
-      invoice_url: "/cart",
+      invoice_url: "https://www.gvsherbalremedy.com/cart",
       status: "open"
     }
   };
