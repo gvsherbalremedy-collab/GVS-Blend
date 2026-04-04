@@ -6,18 +6,23 @@ app.use(cors());
 app.use(express.json());
 
 app.post(['/create-draft-order', '/validate-blend', '/submit-custom-blend'], (req, res) => {
-  const { herbs } = req.body;
-  const formulaString = herbs ? herbs.map(h => `${h.name}: ${h.percentage}%`).join(', ') : 'Custom Blend';
+  const variantId = 61615970779506;
+  // This is a Shopify Permalink: it adds the item and goes to checkout/cart automatically
+  const permalink = `https://www.gvsherbalremedy.com/cart/${variantId}:1`;
 
   res.status(200).json({
+    success: true,
+    invoice_url: permalink, // Top level
+    invoiceUrl: permalink,  // CamelCase just in case
+    url: permalink,         // Simple URL just in case
     draft_order: {
-      id: 61615970779506, 
-      invoice_url: "https://www.gvsherbalremedy.com/cart",
+      id: variantId,
+      invoice_url: permalink,
       status: "open"
     },
-    success: true,
-    variantId: 61615970779506,
-    formula: formulaString
+    data: {
+      invoice_url: permalink
+    }
   });
 });
 
