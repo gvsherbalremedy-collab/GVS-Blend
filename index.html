@@ -5,71 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GVS Builder Bridge</title>
     <script src="https://unpkg.com/@shopify/app-bridge@3"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+        iframe { width: 100%; height: 100%; border: none; }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-900 font-sans">
-    <div class="max-w-4xl mx-auto p-8">
-        <header class="mb-8 border-b pb-4">
-            <h1 class="text-2xl font-bold text-green-700">GVS Builder Bridge</h1>
-            <p class="text-sm text-gray-500">Managing your custom herbal blends and Shopify variants.</p>
-        </header>
+<body>
+    <iframe src="https://j5wdgkcelamk6.kimi.show" id="kimi-frame"></iframe>
 
-        <main class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-                <h3 class="font-bold mb-2">Sync Status</h3>
-                <div class="flex items-center text-green-600">
-                    <span class="w-3 h-3 bg-green-500 rounded-full mr-2"></span>
-                    Connected to Shopify
-                </div>
-            </div>
+    <script>
+        const AppBridge = window['app-bridge'];
+        const createApp = AppBridge.default;
+        const urlParams = new URLSearchParams(window.location.search);
+        const host = urlParams.get("host");
 
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-                <h3 class="font-bold mb-2">Quick Actions</h3>
-                <button class="w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800 transition">
-                    Refresh Variant List
-                </button>
-            </div>
-        </main>
-
-        <section class="mt-10">
-            <h3 class="text-lg font-bold mb-4">Active Custom Blends</h3>
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                <table class="w-full text-left">
-                    <thead class="bg-gray-50 border-b">
-                        <tr>
-                            <th class="p-4">Blend Name</th>
-                            <th class="p-4">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="border-b">
-                            <td class="p-4">Lion's Mane Dual Extract</td>
-                            <td class="p-4"><span class="px-2 py-1 bg-green-100 text-green-700 rounded text-xs">Active</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-    </div>
-<script>
-    const AppBridge = window['app-bridge'];
-    const createApp = AppBridge.default;
-
-    // Get the host from the URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const host = urlParams.get("host");
-
-    if (host) {
-        const app = createApp({
-            apiKey: "900609a6338b2979207e408502d64571", // Your GVS Builder Bridge API Key
-            host: host,
-            forceRedirect: true
-        });
-        console.log("Shopify App Bridge Initialized");
-    } else {
-        console.log("Running outside of Shopify or missing host parameter.");
-    }
-</script>
-
+        if (host) {
+            const app = createApp({
+                apiKey: "900609a6338b2979207e408502d64571",
+                host: host,
+                forceRedirect: true
+            });
+        }
+    </script>
 </body>
 </html>
