@@ -10,22 +10,17 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 1. Serve static files (HTML, CSS, JS) from the root directory
+// 1. Serve static files from the root directory
 app.use(express.static(__dirname));
 
-// 2. Your existing API logic
+// 2. Your API Routes
 app.post(['/create-draft-order', '/validate-blend', '/submit-custom-blend'], (req, res) => {
   const variantId = 61615970779506;
   const permalink = `https://www.gvsherbalremedy.com/cart/${variantId}:1`;
-
-  res.status(200).json({
-    success: true,
-    invoice_url: permalink,
-    draft_order: { id: variantId, invoice_url: permalink, status: "open" }
-  });
+  res.status(200).json({ success: true, invoice_url: permalink });
 });
 
-// 3. The "Catch-all" route: This serves index.html when you visit the main URL
+// 3. Catch-all: Serve index.html for any GET request
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
