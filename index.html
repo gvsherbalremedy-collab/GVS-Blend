@@ -51,16 +51,25 @@
             </div>
         </section>
     </div>
+<script>
+    const AppBridge = window['app-bridge'];
+    const createApp = AppBridge.default;
 
-    <script>
-        // Initialize Shopify App Bridge
-        const AppBridge = window['app-bridge'];
-        const createApp = AppBridge.default;
+    // Get the host from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const host = urlParams.get("host");
+
+    if (host) {
         const app = createApp({
-            apiKey: "YOUR_SHOPIFY_API_KEY", // This connects to your Shopify App settings
-            host: new URLSearchParams(location.search).get("host"),
+            apiKey: "900609a6338b2979207e408502d64571", // Your GVS Builder Bridge API Key
+            host: host,
             forceRedirect: true
         });
-    </script>
+        console.log("Shopify App Bridge Initialized");
+    } else {
+        console.log("Running outside of Shopify or missing host parameter.");
+    }
+</script>
+
 </body>
 </html>
